@@ -21,22 +21,19 @@ func main() {
 
 		// Dispatch it here
 		for _, term := range terms {
+			
 			// Every term gets dispatched here
 		}
 	}
 }
 
-func ls(ch chan string) {
-	go func(){
-		files, _ := ioutil.ReadDir(".")
-		ret := ""
-		for _, v := range files {
-			ret += fmt.Sprintf("%s\n", v.Name)
-		}
-		ch <- ret
-	}()
+func foo() {
+	fmt.Println("foo")
 }
 
+func bar() {
+	fmt. Println("bar")
+}
 
 /* UTIL FUNCTIONS */
 

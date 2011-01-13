@@ -1,1 +1,15 @@
 Taking a cut at a few terms that parse themselves.
+
+The path looks like this.  A person types:
+
+ep> foo bar baz
+
+This sentence is tokenized into three terms: foo, bar, and baz.
+
+All three are dispatched simultaneously. 
+
+Each term can communicate with all the other terms (or possibly only some subset).
+
+They do a "handshake" where term foo says "I'm a verb or a noun" and term bar says "I'm only a verb" and term baz says "I'm only a noun."
+
+Since a noun node must be adjacent to a verb node, the AST quickly settles into noun, verb, noun (A graph like this: o-o-o), and then the functions execute.

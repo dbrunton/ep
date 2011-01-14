@@ -4,12 +4,9 @@ import(
 	"fmt"
 	"bufio"
 	"os"
-	"io/ioutil"
-	"regexp"
 )
 
 func main() {
-	ch := make(chan string)
 
 	for {
 		// Prompt
@@ -17,27 +14,65 @@ func main() {
 
 		// Tokenize it here
 		input, _ := bufio.NewReader(os.Stdin).ReadString('\n')
-		terms := split(input)
+		terms := split(chomp(input))
 
 		// Dispatch it here
 		for _, term := range terms {
-			
-			// Every term gets dispatched here
+			switch term {
+				case "foo": foo()
+				case "bar": bar()
+			}
 		}
 	}
 }
 
+
+// Every term has a part of speech:
+type partOfSpeech struct {
+	label string
+	arity int
+	neighbors []*partOfSpeech
+}
+
+func (p *partOfSpeech) Arity() int {	// how many neighbors
+//	return len(p.neighbors)
+	return p.arity
+}
+
+func (p *partOfSpeech) String() string {
+	return fmt.Sprintf("Part of Speech: %s", p.label)
+}
+
+// A term is a label plus a part of speech
+// For bootstrapping purposes, no name collisions
+type term struct {
+	label string
+	pos *partOfSpeech
+}
+
+func (t *term) String() string {
+	return fmt.Sprintf("label: %s, arity: %d", t.label, t.pos.Arity())
+}
+
 func foo() {
-	fmt.Println("foo")
+	// one and two will be in a grammar somewhere someday
+	one := &partOfSpeech{label: "one", arity: 1}
+	two := &partOfSpeech{label: "two", arity: 2}
+
+	// two senses of foo, foo1 and foo2
+	foo1 := &term{label: "foo", pos: one} // Definition 1
+	foo2 := &term{label: "foo", pos: two}
+
+	switch {
+		// decide which foo
+		case foo1 != nil: fmt.Println(foo1, foo1.pos)
+		case foo2 != nil: fmt.Println(foo2)
+	}
 }
 
 func bar() {
-	fmt. Println("bar")
+	one := &partOfSpeech{label: "one", arity: 1}
+	bar1 := &term{label: "bar", pos: one}
+	fmt.Println(bar1)
 }
 
-/* UTIL FUNCTIONS */
-
-func split(input string) []string {
-	rx := regexp.MustCompile("[^ ]+")
-	return rx.FindAllString(input, -1)
-}

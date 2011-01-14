@@ -38,13 +38,9 @@ func (t *term) String() string {
 }
 
 func foo() {
-	// one and two will be in a grammar somewhere someday
-	one := &partOfSpeech{label: "one", arity: 1}
-	two := &partOfSpeech{label: "two", arity: 2}
-
 	// two senses of foo, foo1 and foo2
-	foo1 := &term{label: "foo", pos: one} // Definition 1
-	foo2 := &term{label: "foo", pos: two}
+	foo1 := &term{label: "foo", pos: &partOfSpeech{label: "one", arity: 1} }
+	foo2 := &term{label: "foo", pos: &partOfSpeech{label: "two", arity: 2} }
 
 	switch {
 		// decide which foo
@@ -54,8 +50,7 @@ func foo() {
 }
 
 func bar() {
-	one := &partOfSpeech{label: "one", arity: 1}
-	bar1 := &term{label: "bar", pos: one}
-	fmt.Println(bar1)
+	bar1 := &term{label: "bar", pos: &partOfSpeech{label: "one", arity: 1} }
+	fmt.Println(bar1, bar1.pos)
 }
 
